@@ -1,0 +1,111 @@
+// 从operationManageC中抽离出来的。
+$fontColor: RGBA(0, 0, 0, 0.85);
+.el-pagination{
+    margin-top: 51px;
+    float: right;
+}
+.setElPagination.el-pagination {
+    // margin-top: 51px;
+    // float: right;
+    position: absolute;
+    right: 54px;
+    bottom: 50px;
+  } 
+#storeSelected {
+    // font-family: PingFangSC;
+    >.el-dialog {
+        width: 800px;
+        max-height: 574px;
+        .el-dialog__header {
+            // height: 55px;
+            padding: 17px 24px 16px 23px !important;
+            border-bottom: 1px solid RGBA(0, 0, 0, 0.09);
+            span {
+                font-size: 16px;
+                font-weight: 700;
+                color: $fontColor;
+            }
+            .el-dialog__headerbtn {
+                font-size: 9px;
+                .el-dialog__close {
+                    color: rgba(0, 0, 0, 0.25);
+                }
+            }
+        }
+        .el-dialog__body {
+            padding: 24px 32px 40px 32px;
+            .el-button.el-button--text {
+                border-color: transparent;
+            }
+            &::before {
+                display: none;
+            }
+            .el-table {
+                font-size: 14px;
+                color: $fontColor;
+                border: none;
+                &::after,
+                &::before {
+                    display: none;
+                    width: 0;
+                }
+                .el-table--border::after,
+                .el-table--group::after {
+                    display: none;
+                    width: 0;
+                }
+                th {
+                    padding: 15px 0;
+                    border-right: none;
+                    &:first-child {
+                        .cell {
+                            text-align: left;
+                            padding-left: 20px;
+                        }
+                    }
+                }
+                .el-table__header-wrapper {
+                    tr,
+                    th {
+                        background: RGBA(250, 250, 250, 1);
+                        color: $fontColor;
+                    }
+                }
+                .el-table__body-wrapper {
+                    td {
+                        padding: 16px 0;
+                        .cell {
+                            .el-button {
+                                padding: 0;
+                            }
+                        }
+                    }
+                    tr.el-table__row{
+                        td:first-child{
+                            .cell{
+                            &:first-child{
+                                padding-left: 20px;
+                            }
+                        }
+                        }
+                        
+                    }
+                }
+            }
+            .el-pagination {
+                display: flex;
+                justify-content: center;
+                margin-top: 16px;
+
+                float: none;
+            } 
+        }
+      
+    }
+   
+}
+
+.el-button--primary {
+    background: #18CCC0;
+    border-color: #18CCC0;
+}

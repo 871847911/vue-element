@@ -1,0 +1,63 @@
+@mixin komolei {
+    border: 1px solid red;
+    background: yellow;
+}
+
+@mixin font {
+    font-size: 14px;
+    color: RGBA(0, 0, 0, 0.65);
+    font-weight: 700;
+}
+
+@mixin fontRegular {
+    font-size: 14px;
+    color: RGBA(0, 0, 0, 0.65);
+    font-weight: 600;
+}
+
+@mixin fontRegularBlack {
+    font-size: 14px;
+    color: RGBA(0, 0, 0, 0.85);
+    font-weight: 400;
+}
+
+@mixin fontLightC {
+    font-size: 14px; // color:RGBA(0, 0, 0, 0.45);
+    color: RGBA(0, 0, 0, 0.65);
+}
+
+@mixin fontLight {
+    font-size: 14px; // color:RGBA(0, 0, 0, 0.45);
+    color: RGBA(0, 0, 0, 0.45);
+}
+
+@mixin buttonPrimary {
+    button {
+        min-width: 114px;
+        min-height: 32px;
+        padding: 0;
+        span {
+            line-height: 32px;
+        }
+    }
+    .el-button.el-button--primary {
+        border-color: #18CCC0;
+        background: #18CCC0;
+    }
+}
+
+@mixin buttonPrimaryS {
+    button {
+        min-width: 114px;
+        min-height: 32px;
+        padding: 0;
+        span {
+            line-height: 32px;
+        }
+    }
+    .el-button--primary {
+        min-width: 65px;
+        background: #18CCC0;
+        border-color: #18CCC0;
+    }
+}
