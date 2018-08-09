@@ -1,31 +1,35 @@
 <template>
-<el-container class="resetBG">
-  <el-aside width="208px" style="box-shadow:1px 0px 4px 0px rgba(0,16,41,0.12);">
-     <el-menu :default-active="menuIndex" class="el-menu-vertical-demo" @select='handleSelect'  text-color="#000000" active-text-color="#18CCC0" :router="true">
-            <el-menu-item v-for="(item,index) in asideNavList" :key="index" :index="index.toString()" :route="asideNavList[index].url">
-                <!-- <i class="el-icon-menu"></i> -->
-                <!-- <router-link :to="asideNavList[index].url" > -->
-                    <span class="operA">{{item.alias}}</span>
-                <!-- </router-link> -->
-            </el-menu-item>
-        </el-menu>
-  </el-aside>
+  <el-container class="resetBG">
+    <el-aside width="208px" style="box-shadow:1px 0px 4px 0px rgba(0,16,41,0.12);">
+      <el-menu :default-active="menuIndex" class="el-menu-vertical-demo" @select='handleSelect' text-color="#BCBCBC" active-text-color="#18CCC0" :router="true">
+        <el-menu-item v-for="(item,index) in asideNavList" :key="index" :index="index.toString()" :route="asideNavList[index].url">
+          <!-- <i class="el-icon-menu"></i> -->
+          <!-- <router-link :to="asideNavList[index].url" > -->
+          <span class="operA">{{item.alias}}</span>
+          <!-- </router-link> -->
+        </el-menu-item>
+      </el-menu>
+    </el-aside>
     <div class="commonHead">
-        <h3>
-            {{title}}
-        </h3>
-        <div class="commonCon">
-            <router-view>
-            </router-view>
-        </div>
+      <h3 v-if="secondTitle=='模板详情'" style="margin-bottom: 24px;">
+        模板详情
+            <el-button @click="goBack">返 回</el-button>
+      </h3>
+      <h3 v-else>
+        {{title}}
+      </h3>
+      <div class="commonCon">
+        <router-view>
+        </router-view>
+      </div>
 
     </div>
-</el-container>
+  </el-container>
 </template>
 
 <script>
+import { mapState, mapActions, mapGetters } from "vuex";
 import store from "@/store/index";
-import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "openSettingC",
@@ -35,37 +39,56 @@ export default {
       title: "发布设置",
       asideNavList: [
         {
+          name: "miniProgramBind",
+          url: "/openSettingC/miniProgramBind",
+          alias: "小程序绑定配置"
+        },
+        {
+          name: "tempCenter",
+          url: "/openSettingC/tempCenter",
+          alias: "模板中心"
+        },
+        {
           name: "openSetting",
           url: "/openSettingC/openSetting",
           alias: "发布设置"
         },
         {
-          name: "miniProgramBind",
-          url: "/openSettingC/miniProgramBind",
-          alias: "小程序绑定"
-        },
-        {
           name: "storeInfoBind",
           url: "/openSettingC/storeInfoBind",
           alias: "商户信息配置"
-        },
-        {
+        }
+        /*{
           name: "accountSafe",
           url: "/openSettingC/accountSafe",
           alias: "账号安全"
-        }
-      ]
+        }*/
+      ],
+        titleName: false,
     };
   },
   computed: {
-    ...mapGetters({ menuIndex: "getMenuIndex" })
+    ...mapGetters({ menuIndex: "getMenuIndex", secondTitle: "getTitle" })
   },
+    updated() {
+        if(this.$route.name == 'tempDetail'){
+            this.title = '模板详情'
+            store.dispatch("changeTitle", '模板详情');
+        }else{
+            this.title = this.asideNavList[this.menuIndex].alias;
+            store.dispatch("changeTitle", this.title);
+        }
+    },
   methods: {
-    ...mapActions(["changeMenuIndex"]),
+    ...mapActions(["changeMenuIndex", "changeTitle"]),
     handleSelect(index) {
       this.title = this.asideNavList[index].alias;
       store.dispatch("changeMenuIndex", index);
-    }
+      store.dispatch("changeTitle", this.title);
+    },
+      goBack() {
+          this.$router.go(-1);
+      },
   },
   created() {
     if (localStorage.getItem("menuIndex")) {
@@ -73,6 +96,11 @@ export default {
       console.log("this.menuIndex", this.menuIndex);
     }
     this.title = this.asideNavList[this.menuIndex].alias;
+    store.dispatch("changeTitle", this.title);
+    if(this.$route.name == 'tempDetail'){
+        this.title = '模板详情'
+        store.dispatch("changeTitle", '模板详情');
+    }
   }
 };
 </script>
@@ -93,7 +121,7 @@ $fontColor: RGBA(0, 0, 0, 0.85);
   .el-aside {
     ul {
       height: 100%;
-      background: #fff;
+      background: rgba(71, 74, 80, 1);
     }
   }
 }
@@ -104,19 +132,25 @@ $fontColor: RGBA(0, 0, 0, 0.85);
   overflow: hidden;
   // overflow-y: scroll;
   h3 {
-    height: 92px;
-    line-height: 92px;
-    font-size: 20px;
+    height: 66px;
+    line-height: 66px;
+    font-size: 18px;
     color: $fontColor;
     box-sizing: border-box;
     padding-left: 31px;
     background: #fff;
-    margin-left: 1px;
+      margin: 24px;
+      margin-bottom: 0;
+      .el-button{
+          padding: 8px 20px;
+          float: right;
+          margin: 17px 32px 0 0;
+      }
   }
   .commonCon {
     overflow: hidden;
     height: calc(100% - 24px);
-    margin: 24px 24px 0 24px;
+    margin: 0 24px 0 24px;
     section.el-container {
       // min-height: 729px;
       background: #fff;

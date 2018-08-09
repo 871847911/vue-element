@@ -3,6 +3,7 @@ html {
     overflow: -moz-hidden-unscrollable;
 }
 
+
 /* body::-webkit-scrollbar {
     display: none;
 } */
@@ -12,21 +13,26 @@ html {
     background: transparent;  /* optional: just make scrollbar invisible */
 }
 
+
 body {
     -ms-overflow-style: none;
 }
 /* aside */
-
+.el-aside{
+    height: 100%;
+    background: rgba(71,74,80,1);
+}
 .el-menu-item {
-    height: 40px;
-    margin-top: 24px;
-    line-height: 40px;
-    text-align: center;
+    background: rgba(71,74,80,1);
+    height: 50px;
+    line-height: 50px;
+    border-left: 6px solid transparent;
+    text-align: left;
+    text-indent: 34px;
 }
 
 .el-menu-item .is-active {
-    border-right: 2px solid #18CCC0;
-    background: #f66
+    border-left: 6px solid rgba(24,204,192,1);
 }
 
 /* operationManageC common css*/
@@ -160,7 +166,7 @@ button {
 
 
 .el-button.el-button--primary
-    {
+{
     border-color: #18CCC0;
     background: #18CCC0;
 }
@@ -447,13 +453,13 @@ button {
 }
 
 .el-menu-vertical-demo .is-active {
-    border-right: 2px solid #18CCC0;
-    background: RGBA(220, 245, 243, 1);
+    border-left: 6px solid rgba(24,204,192,1);
+    background: #3F4247;
 }
 
 .el-menu-item:focus,
 .el-menu-item:hover {
-    background: RGBA(220, 245, 243, 1);
+    background: #3F4247;
 }
 
 .el-tabs__item.is-active,
@@ -480,7 +486,18 @@ button {
 .el-select-dropdown__item.selected {
     color: #18CCC0;
 }
-
+.reTechElMain{
+    height: 100%;
+}
+.reTechElMain .el-row{
+    height: 100%;
+}
+.reTechElMain .el-row .el-col{
+    height: 100%;
+}
+.reTechElMain .el-row .el-col .el-tabs{
+    height: 100%;
+}
 .reTechElMain .el-tabs.el-tabs--top {
     border-top: 1px solid #e8e8e8;
 }
@@ -492,7 +509,7 @@ button {
 }
 
 .reTechElMain .el-tabs__content {
-    height: 560px;
+    height: calc(100% - 205px);
     padding: 24px 32px 0 32px;
     background: #fff;
 }
@@ -530,7 +547,7 @@ button {
 }
 
 .openS .el-button.noBorderC.el-button--text:hover
- {
+{
     border-color: #fff;
 }
 .openS .el-button:focus{
@@ -660,7 +677,7 @@ button {
 
 /*bindSer*/
 .commonCon>section.el-container>.el-main>.el-table>.el-table__body-wrapper .resetCell th,
- .commonCon>section.el-container>.el-main>.el-table>.el-table__body-wrapper td.resetCell {
+.commonCon>section.el-container>.el-main>.el-table>.el-table__body-wrapper td.resetCell {
     padding:9px 0;
 }
 .commonCon>section.el-container>.el-main>.el-table>.el-table__body-wrapper td.el-table__expanded-cell{
@@ -689,15 +706,15 @@ button {
 }
 
 .showNickName  .cell{
-      text-align: center;
-  }
+    text-align: center;
+}
 
 /* video module css */
 .play-video-dialog{
     height: 600px;
     width: 600px;
-  }
-  .play-video-dialog .el-dialog__body {
+}
+.play-video-dialog .el-dialog__body {
     height: 600px;
     width: 600px;
 

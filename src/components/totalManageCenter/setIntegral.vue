@@ -154,10 +154,12 @@
         .header{
             display: flex;
             align-items: center;
+            border: 24px solid #edf2f5;
+            border-bottom: 0;
             .title{
-                height: 92px;
-                line-height: 92px;
-                font-size: 20px;
+                height: 66px;
+                line-height: 66px;
+                font-size: 18px;
                 color: rgba(0,0,0,.85);
                 text-indent: 32px;
                 font-weight: 900;
@@ -168,10 +170,11 @@
             }
         }
         .cont{
-            height: calc(100% - 140px);
-            height: -webkit-calc(100% - 140px);
-            height: -moz-calc(100% - 140px);
+            height: calc(100% - 114px);
+            height: -webkit-calc(100% - 114px);
+            height: -moz-calc(100% - 114px);
             border: 24px solid #edf2f5;
+            border-top: 0;
             overflow: auto;
             p{
                 font-size: 16px;

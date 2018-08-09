@@ -85,7 +85,6 @@ export default {
   background-size: 100% 100%;
 }
 #app {
-
   height: 100%;
   font-size: 14px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -101,4 +100,5 @@ export default {
 }
 
 @import "assets/css/public.css";
+@import "assets/css/mask.scss";
 </style>

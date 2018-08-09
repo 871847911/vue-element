@@ -1,43 +1,43 @@
 <template>
     <div id="booking-order">
         <p class="title">预约订单</p>
-        <div class="cont">
-            <div class="choose-booking">
-                <div class="booking">
-                    <p>门店选择：</p>
-                    <el-select v-model="storeChoose" placeholder="全部">
-                        <el-option
-                            v-for="(item, index) in storeList"
-                            :key="item.index"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="search-tel">
-                    <p>手机号码：</p>
-                    <el-input v-model="searchTel" placeholder="请输入手机号码"></el-input>
-                </div>
-                <div class="search-time">
-                    <p>时间范围</p>
-                    <el-date-picker
-                        v-model="timeValue"
-                        type="datetimerange"
-                        @change="getTime"
-                        range-separator="至"
-                        start-placeholder="起始时间"
-                        end-placeholder="结束时间">
-                    </el-date-picker>
-                    <el-button type="primary" @click="searchOrder">搜索</el-button>
-                </div>
+        <div class="choose-booking">
+            <div class="booking">
+                <p>门店选择：</p>
+                <el-select v-model="storeChoose" placeholder="全部">
+                    <el-option
+                        v-for="(item, index) in storeList"
+                        :key="item.index"
+                        :label="item.label"
+                        :value="item.value">
+                    </el-option>
+                </el-select>
             </div>
-            <el-radio-group v-model="radio" @change="chooseStatus">
-                <el-radio-button label="全部"></el-radio-button>
-                <el-radio-button label="待服务"></el-radio-button>
-                <el-radio-button label="已完成"></el-radio-button>
-                <el-radio-button label="店家取消"></el-radio-button>
-                <el-radio-button label="客户取消"></el-radio-button>
-            </el-radio-group>
+            <div class="search-tel">
+                <p>手机号码：</p>
+                <el-input v-model="searchTel" placeholder="请输入手机号码"></el-input>
+            </div>
+            <div class="search-time">
+                <p>时间范围</p>
+                <el-date-picker
+                    v-model="timeValue"
+                    type="datetimerange"
+                    @change="getTime"
+                    range-separator="至"
+                    start-placeholder="起始时间"
+                    end-placeholder="结束时间">
+                </el-date-picker>
+                <el-button type="primary" @click="searchOrder">搜索</el-button>
+            </div>
+        </div>
+        <el-radio-group v-model="radio" @change="chooseStatus">
+            <el-radio-button label="全部"></el-radio-button>
+            <el-radio-button label="待服务"></el-radio-button>
+            <el-radio-button label="已完成"></el-radio-button>
+            <el-radio-button label="店家取消"></el-radio-button>
+            <el-radio-button label="客户取消"></el-radio-button>
+        </el-radio-group>
+        <div class="cont">
             <el-table :data="tableData" min-height="550">
                 <el-table-column prop="serialNum" label="订单号" width="120"></el-table-column>
                 <el-table-column prop="userName" label="客户姓名" width="80"></el-table-column>
@@ -496,8 +496,14 @@
 
 <style lang="scss">
     #booking-order {
-        width: 100%;
-        height: 100%;
+        width: calc(100% - 48px);
+        width: -webkit-calc(100% - 48px);
+        width: -moz-calc(100% - 48px);
+        height: calc(100% - 48px);
+        height: -webkit-calc(100% - 48px);
+        height: -moz-calc(100% - 48px);
+        border: 24px solid #edf2f5;
+        overflow: auto;
         .search_input::-webkit-input-placeholder{
             color:#f66;
         }
@@ -524,62 +530,69 @@
             -webkit-box-shadow: -1px 0 0 0 rgba(24,204,192,1);
             box-shadow: -1px 0 0 0 rgba(24,204,192,1);
         }
-        .title {
-            height: 92px;
-            line-height: 92px;
-            font-size: 20px;
+        .title{
+            height: 66px;
+            line-height: 66px;
+            font-size: 18px;
             color: rgba(0,0,0,.85);
             text-indent: 32px;
             font-weight: 900;
+            flex: 1;
+        }
+        .choose-booking {
+            display: flex;
+            padding: 0 32px 24px;
+            /*border-left: 24px solid #edf2f5;
+            border-right: 24px solid #edf2f5;*/
+            .booking {
+                display: flex;
+                align-items: center;
+                p {
+                    width: 70px;
+                }
+                .el-select{
+                    width: 136px;
+                }
+            }
+            .search-tel {
+                margin-left: 20px;
+                display: flex;
+                align-items: center;
+                p {
+                    width: 70px;
+                }
+                .el-input{
+                    width: 136px;
+                }
+            }
+            .search-time{
+                margin-left: 20px;
+                display: flex;
+                align-items: center;
+                p{
+                    width: 70px;
+                }
+                .el-date-editor{
+                    width: 372px;
+                }
+                .el-button{
+                    margin-left: 16px;
+                }
+            }
+        }
+        .el-radio-group{
+            width: calc(100% - 112px);
+            padding: 0 32px 0;
+            /* border-left: 24px solid #edf2f5;
+             border-right: 24px solid #edf2f5;*/
         }
         .cont{
-            height: calc(100% - 140px);
-            height: -webkit-calc(100% - 140px);
-            height: -moz-calc(100% - 140px);
+            /*height: calc(100% - 202px);
+            height: -webkit-calc(100% - 202px);
+            height: -moz-calc(100% - 202px);
             border: 24px solid #edf2f5;
-            overflow: auto;
-            .choose-booking {
-                display: flex;
-                margin: 24px 32px;
-                .booking {
-                    display: flex;
-                    align-items: center;
-                    p {
-                        width: 70px;
-                    }
-                    .el-select{
-                        width: 136px;
-                    }
-                }
-                .search-tel {
-                    margin-left: 20px;
-                    display: flex;
-                    align-items: center;
-                    p {
-                        width: 70px;
-                    }
-                    .el-input{
-                        width: 136px;
-                    }
-                }
-                .search-time{
-                    margin-left: 20px;
-                    display: flex;
-                    align-items: center;
-                    p{
-                        width: 70px;
-                    }
-                    .el-date-editor{
-                        width: 372px;
-                    }
-                    .el-button{
-                        margin-left: 16px;
-                    }
-                }
-            }
-            .el-radio-group{
-                margin: 0 32px 0;
-            }
+            border-top: 0;
+            overflow: hidden;*/
         }
         .booking-state {
             display: flex;
@@ -590,9 +603,9 @@
             }
         }
         .el-table {
-            height: calc(100% - 216px);
-            height: -webkit-calc(100% - 216px);
-            height: -moz-calc(100% - 216px);
+            /*height: calc(100% - 188px);
+            height: -webkit-calc(100% - 188px);
+            height: -moz-calc(100% - 188px);*/
             .el-table_1_column_11{
                 .cell{
 

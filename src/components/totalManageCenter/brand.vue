@@ -39,7 +39,7 @@
                             loading: true,
                             name: "multipartFile",
                             size: 2,
-                            action:  `${this.siteUrl}/upload`,
+                            action: `${this.siteUrl}/upload`,
                             brandCont: '',
                             response: res => {
                                 // console.log("res is", res);
@@ -82,7 +82,11 @@
                                 [{ size: ["small", false, "large"] }],
                                 ["bold", "italic"],
                                 [{ list: "ordered" }, { list: "bullet" }],
-                                ["link", "image"]
+                                ["link", "image"],
+                                [{"header": 1}, {"header": 2}],
+                                [{"color": []}, {"background": []}],
+                                [{ 'align': [] }],
+                                [{ 'indent': '-1'}]
                             ],
                             handlers: {
                                 image: function() {
@@ -187,8 +191,14 @@
 
 <style lang="scss">
     #brand{
-        width: 100%;
-        height: 100%;
+        width: calc(100% - 48px);
+        width: -webkit-calc(100% - 48px);
+        width: -moz-calc(100% - 48px);
+        height: calc(100% - 48px);
+        height: -webkit-calc(100% - 48px);
+        height: -moz-calc(100% - 48px);
+        border: 24px solid #edf2f5;
+        overflow: auto;
         .ql-editor{
             height: 424px
         }
@@ -196,19 +206,21 @@
             width: 602px;
         }
         .title{
-            height: 92px;
-            line-height: 92px;
-            font-size: 20px;
+            height: 66px;
+            line-height: 66px;
+            font-size: 18px;
             color: rgba(0,0,0,.85);
             text-indent: 32px;
             font-weight: 900;
+            flex: 1;
         }
         .cont{
-            height: calc(100% - 140px);
-            height: -webkit-calc(100% - 140px);
-            height: -moz-calc(100% - 140px);
+            /*height: calc(100% - 114px);
+            height: -webkit-calc(100% - 114px);
+            height: -moz-calc(100% - 114px);
             border: 24px solid #edf2f5;
-            overflow: auto;
+            border-top: 0;
+            overflow: auto;*/
             .el-form{
                 width: 65%;
                 margin: 0 auto;
@@ -227,7 +239,6 @@
                         color: rgba(0,0,0,0.85);;
                     }
                     &:nth-of-type(1) {
-                        margin-top: 32px;
                     }
                     .editor-rule{
                         line-height: 32px;

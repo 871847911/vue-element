@@ -1,36 +1,36 @@
 <template>
     <div id="integral">
         <p class="title">积分管理</p>
-        <div class="cont">
-            <div class="choose">
-                <div class="name-search">
-                    <p>微信昵称：</p>
-                    <el-input v-model="userName" placeholder="请输入微信昵称"></el-input>
-                    <p>时间范围：</p>
-                    <el-date-picker
-                        v-model="timeValue"
-                        type="datetimerange"
-                        range-separator="至"
-                        start-placeholder="起始时间"
-                        end-placeholder="结束时间">
-                    </el-date-picker>
-                    <el-button type="primary" @click="searchIntegral">搜索</el-button>
-                </div>
-                <div class="open-integral">
-                    <p>积分功能开关：</p>
-                    <el-switch
-                        v-model="integral"
-                        active-color="rgba(24,204,192,1)"
-                        inactive-color="rgba(0,0,0,.25)">
-                    </el-switch>
-                    <el-button class="setIntegral" type="primary" @click="toSetIntegral">积分规则设置</el-button>
-                </div>
+        <div class="choose">
+            <div class="name-search">
+                <p>微信昵称：</p>
+                <el-input v-model="userName" placeholder="请输入微信昵称"></el-input>
+                <p>时间范围：</p>
+                <el-date-picker
+                    v-model="timeValue"
+                    type="datetimerange"
+                    range-separator="至"
+                    start-placeholder="起始时间"
+                    end-placeholder="结束时间">
+                </el-date-picker>
+                <el-button type="primary" @click="searchIntegral">搜索</el-button>
             </div>
+            <div class="open-integral">
+                <p>积分功能开关：</p>
+                <el-switch
+                    v-model="integral"
+                    active-color="rgba(24,204,192,1)"
+                    inactive-color="rgba(0,0,0,.25)">
+                </el-switch>
+                <el-button class="setIntegral" type="primary" @click="toSetIntegral">积分规则设置</el-button>
+            </div>
+        </div>
+        <div class="cont">
             <el-table :data="tableData" min-height="550">
                 <el-table-column prop="nickName" label="微信昵称"></el-table-column>
-                <el-table-column prop="creatTime" label="最新变更时间"></el-table-column>
+                <el-table-column prop="creatTime" :formatter="formatTime" label="最新变更时间"></el-table-column>
                 <el-table-column prop="explain" label="事件"></el-table-column>
-                <el-table-column prop="numberValue" label="变更数量"></el-table-column>
+                <el-table-column prop="numberValue" :formatter="formatValue" label="变更数量"></el-table-column>
                 <el-table-column prop="surplusNumber" label="当前剩余积分"></el-table-column>
                 <el-table-column prop="zip" label="操作">
                     <template slot-scope="scope">
@@ -74,6 +74,12 @@
             })
         },
         methods: {
+            formatTime(val) {
+                return new Date(val.creatTime).toLocaleDateString().replace(/\//g, "-") + " " + new Date(val.creatTime).toTimeString().substr(0, 8)
+            },
+            formatValue(val) {
+                return val.event + val.numberValue
+            },
             searchIntegral() {
                 if( this.timeValue != null){
                     this.startTime = this.timeValue[0]
@@ -98,10 +104,6 @@
                 api.integralList(params).then(res => {
                     console.log(res.list)
                     this.tableData = res.list
-                    for(var i = 0;i < this.tableData.length;i ++){
-                        this.tableData[i].creatTime = new Date(this.tableData[i].creatTime).toLocaleDateString().replace(/\//g, "-") + " " + new Date(this.tableData[i].creatTime).toTimeString().substr(0, 8)
-                        this.tableData[i].numberValue = this.tableData[i].event + this.tableData[i].numberValue
-                    }
                     this.total = res.total;
                 })
             },
@@ -135,61 +137,69 @@
 <style lang="scss">
 
     #integral{
-        width: 100%;
-        height: 100%;
-        .title {
-            height: 92px;
-            line-height: 92px;
-            font-size: 20px;
+        width: calc(100% - 48px);
+        width: -webkit-calc(100% - 48px);
+        width: -moz-calc(100% - 48px);
+        height: calc(100% - 48px);
+        height: -webkit-calc(100% - 48px);
+        height: -moz-calc(100% - 48px);
+        border: 24px solid #edf2f5;
+        overflow: auto;
+        .title{
+            height: 66px;
+            line-height: 66px;
+            font-size: 18px;
             color: rgba(0,0,0,.85);
             text-indent: 32px;
             font-weight: 900;
+            flex: 1;
         }
-        .cont{
-            height: calc(100% - 140px);
-            height: -webkit-calc(100% - 140px);
-            height: -moz-calc(100% - 140px);
-            border: 24px solid #edf2f5;
-            overflow: auto;
-            .choose {
+        .choose {
+            display: flex;
+            padding: 0 32px 24px;
+            .el-input{
+                width: 136px;
+            }
+            .el-date-editor{
+                width: 372px;                }
+            .el-button{
+                margin-left: 10px;
+            }
+            .name-search {
+                flex: 1;
                 display: flex;
-                margin: 24px 32px;
-                .el-input{
-                    width: 136px;
-                }
-                .el-date-editor{
-                    width: 372px;                }
-                .el-button{
-                    margin-left: 10px;
-                }
-                .name-search {
-                    flex: 1;
-                    display: flex;
-                    align-items: center;
-                    p {
-                        width: 70px;
-                        &:nth-of-type(2){
-                            margin-left: 20px;
-                        }
+                align-items: center;
+                p {
+                    width: 70px;
+                    &:nth-of-type(2){
+                        margin-left: 20px;
                     }
-                }
-                .open-integral {
-                    margin-left: 20px;
-                    display: flex;
-                    align-items: center;
-                    p {
-                        width: 98px;
-                    }
-                }
-                .setIntegral{
-                    right: 30px;
                 }
             }
+            .open-integral {
+                margin-left: 20px;
+                display: flex;
+                align-items: center;
+                p {
+                    width: 98px;
+                }
+            }
+            .setIntegral{
+                right: 30px;
+            }
+        }
+        .cont{
+            /* height: calc(100% - 170px);
+             height: -webkit-calc(100% - 170px);
+             height: -moz-calc(100% - 170px);
+             border: 24px solid #edf2f5;
+             border-top: 0;
+             overflow: auto;*/
             .el-table{
                 margin: 16px 32px 16px;
-                width: calc(100% - 64px);
+                /*width: calc(100% - 64px);
                 width: -webkit-calc(100% - 64px);
-                width: -moz-calc(100% - 64px);
+                width: -moz-calc(100% - 64px);*/
                 .has-gutter{
                     color: rgba(0,0,0,.85);
                 }

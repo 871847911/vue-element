@@ -92,12 +92,23 @@ const router = new Router({
           path: 'setUpCoupon',
           name: 'setUpCoupon',
           component: resolve => require(['@/components/totalManageCenter/setUpCoupon'], resolve)
-        },
-        {
+        },{
           path: 'message',
           name: 'message',
           component: resolve => require(['@/components/totalManageCenter/message'], resolve)
-        }
+          },{
+          path: 'acconutSafety',
+          name: 'acconutSafety',
+          component: resolve => require(['@/components/totalManageCenter/acconutSafety'], resolve)
+          },{
+          path: 'messageCenter',
+          name: 'messageCenter',
+          component: resolve => require(['@/components/totalManageCenter/messageCenter'], resolve)
+          },{
+          path: 'messageDetail',
+          name: 'messageDetail',
+          component: resolve => require(['@/components/totalManageCenter/messageDetail'], resolve)
+          }
       ]
     },
     {
@@ -200,7 +211,7 @@ const router = new Router({
       path: '/openSettingC',
       name: 'openSettingC',
       component: resolve => require(['@/views/openSettingC'], resolve),
-      redirect: '/openSettingC/openSetting',
+      redirect: '/openSettingC/miniProgramBind',
       children: [
         {
           path: 'openSetting',
@@ -211,25 +222,27 @@ const router = new Router({
           path: 'miniProgramBind',
           name: 'miniProgramBind',
           component: resolve => require(['@/components/openSettingManageCenter/miniProgramBind'], resolve)
-
         },
         {
           path: 'storeInfoBind',
           name: 'storeInfoBind',
-
           component: resolve => require(['@/components/openSettingManageCenter/storeInfoBind'], resolve)
-
-
         },
         {
           path: 'accountSafe',
           name: 'accountSafe',
-
           component: resolve => require(['@/components/openSettingManageCenter/accountSafe'], resolve)
-
-
         },
-
+        {
+          path: 'tempCenter',
+          name: 'tempCenter',
+          component: resolve => require(['@/components/openSettingManageCenter/tempCenter'], resolve)
+        },
+        {
+          path: 'tempDetail',
+          name: 'tempDetail',
+          component: resolve => require(['@/components/openSettingManageCenter/tempDetail'], resolve)
+        },
       ]
     },
 

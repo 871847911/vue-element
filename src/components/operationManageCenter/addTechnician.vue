@@ -604,11 +604,13 @@ span {
   margin-left: 3%;
   margin-bottom: 5px;
   cursor: pointer;
+    display: flex;
   .el-input {
-    width: 90%;
+      flex: 1;
   }
   span {
     color: #18ccc0;
+      width: 40px;
   }
 }
 </style>

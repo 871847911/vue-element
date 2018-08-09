@@ -350,15 +350,21 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
     #store-config{
-        width: 100%;
-        height: 100%;
+        width: calc(100% - 48px);
+        width: -webkit-calc(100% - 48px);
+        width: -moz-calc(100% - 48px);
+        height: calc(100% - 48px);
+        height: -webkit-calc(100% - 48px);
+        height: -moz-calc(100% - 48px);
+        border: 24px solid #edf2f5;
+        overflow: auto;
         .store-message{
             display: flex;
             align-items: center;
             .title{
-                height: 92px;
-                line-height: 92px;
-                font-size: 20px;
+                height: 66px;
+                line-height: 66px;
+                font-size: 18px;
                 color: rgba(0,0,0,.85);
                 text-indent: 32px;
                 font-weight: 900;
@@ -370,14 +376,15 @@
             }
         }
         .configInfo{
-            height: calc(100% - 140px);
-            height: -webkit-calc(100% - 140px);
-            height: -moz-calc(100% - 140px);
+            /*height: calc(100% - 114px);
+            height: -webkit-calc(100% - 114px);
+            height: -moz-calc(100% - 114px);
             border: 24px solid #edf2f5;
-            overflow: auto;
+            border-top: 0;
+            overflow: auto;*/
             .el-form{
                 width: 60%;
-                margin: 32px auto 0;
+                margin: 0 auto 0;
                 .el-form-item__content{
                     width: 468px;
                 }

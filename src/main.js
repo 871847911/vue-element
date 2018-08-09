@@ -31,8 +31,6 @@ import 'quill/dist/quill.bubble.css'
 // Vue.use(VueQuillEditor, /* { default global options } */)
 Vue.use(VueQuillEditor)
 
-
-
 import './assets/css/ele.css';
 
 Vue.use(Vuex)

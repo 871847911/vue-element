@@ -169,19 +169,21 @@
         width: 100%;
         height: 100%;
         .message_title{
-            margin: 0 32px;
+            padding: 0 32px;
+            border: 24px solid rgba(237,242,245,1);
+            border-bottom: 0;
             .title{
-                font-size: 20px;
-                line-height: 28px;
+                font-size: 18px;
+                line-height: 18px;
                 font-weight: 900;
-                padding: 34px 0 16px;
+                padding: 24px 0 16px;
             }
         }
         .bind_message{
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin: 0 0 32px;
+            padding: 0 0 24px;
             height: 32px;
             .getUserInfo{
                 display: flex;
@@ -332,11 +334,12 @@
             }
         }
         .message_cont{
-            height: calc(100% - 388px);
-            height: -webkit-calc(100% - 388px);
-            height: -moz-calc(100% - 388px);
+            height: calc(100% - 384px);
+            height: -webkit-calc(100% - 384px);
+            height: -moz-calc(100% - 384px);
             border: 24px solid rgba(237,242,245,1);
             border-top: 0;
+            overflow: auto;
             p{
                 line-height: 24px;
                 height: 24px;
@@ -352,9 +355,9 @@
             }
         }
         .el-table{
-            height: calc(100% - 144px);
+           /* height: calc(100% - 144px);
             height: -webkit-calc(100% - 144px);
-            height: -moz-calc(100% - 144px);
+            height: -moz-calc(100% - 144px);*/
             .el-table__row{
                 .table_1_column_2{
                     .cell{

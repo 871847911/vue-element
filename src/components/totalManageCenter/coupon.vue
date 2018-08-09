@@ -1,10 +1,10 @@
 <template>
     <div id="coupon">
         <p class="title">优惠券管理</p>
+        <div class="setup">
+            <el-button type="primary" @click="toSetUpCoupon">创建优惠券</el-button>
+        </div>
         <div class="cont">
-            <div class="setup">
-                <el-button type="primary" @click="toSetUpCoupon">创建优惠券</el-button>
-            </div>
             <el-table :data="tableData" min-height="550">
                 <el-table-column prop="orderId" label="优惠券"  width="400">
                     <template slot-scope="scope">
@@ -61,7 +61,7 @@
                 </div>
                 <p class="dialog-cont">失效后将不可撤回，已领取的红包也将不可使用</p>
             </div>
-                <span slot="footer" class="dialog-footer">
+            <span slot="footer" class="dialog-footer">
                 <el-button @click="pastC = false">取 消</el-button>
                 <el-button type="primary" @click="surePast">确 定</el-button>
             </span>
@@ -81,7 +81,7 @@
                 couponId: '',
                 type: '',
                 row: {},
-                total: 10,
+                total: 5,
                 currentPage: 1,
                 pageSize: 5,
             }
@@ -95,11 +95,11 @@
             })
         },
         methods: {
-        	sss(row) {
-        		this.couponId = row.id;
-        		this.type = row.type;
+            sss(row) {
+                this.couponId = row.id;
+                this.type = row.type;
                 this.row = row;
-        	},
+            },
             //获取优惠券列表
             getCouponListByMerchantId() {
                 let params = { pageSize: this.pageSize, pageNo: this.currentPage, merchantId: this.loginInfo.sellerId };
@@ -194,8 +194,14 @@
 
 <style lang="scss">
     #coupon{
-        width: 100%;
-        height: 100%;
+        width: calc(100% - 48px);
+        width: -webkit-calc(100% - 48px);
+        width: -moz-calc(100% - 48px);
+        height: calc(100% - 48px);
+        height: -webkit-calc(100% - 48px);
+        height: -moz-calc(100% - 48px);
+        border: 24px solid #edf2f5;
+        overflow: auto;
         .el-dialog__header{
             padding: 0;
             i{
@@ -223,92 +229,93 @@
                 padding-top: 16px;
             }
         }
-        .title {
-            height: 92px;
-            line-height: 92px;
-            font-size: 20px;
+        .title{
+            height: 66px;
+            line-height: 66px;
+            font-size: 18px;
             color: rgba(0,0,0,.85);
             text-indent: 32px;
             font-weight: 900;
+            flex: 1;
+        }
+        .setup {
+            padding: 0 32px 24px 0;
+            overflow: hidden;
+            .el-button{
+                float: right;
+            }
         }
         .cont{
-            height: calc(100% - 140px);
-            height: -webkit-calc(100% - 140px);
-            height: -moz-calc(100% - 140px);
+            /*height: calc(100% - 170px);
+            height: -webkit-calc(100% - 170px);
+            height: -moz-calc(100% - 170px);
             border: 24px solid #edf2f5;
-            overflow: auto;
-            position: relative;
-            .setup {
-                margin: 24px 32px 24px 0;
-                overflow: hidden;
-                .el-button{
-                    float: right;
-                }
-            }
-        }
-        .el-pagination{
-            padding: 0;
-            float: right;
-            margin: 0 32px 32px 0;
-        }
-        .coupon-status{
-            width: 242px;
-            height: 86px;
-            overflow: hidden;
-            .coupon-s{
-                width: 100%;
-                height: 32px;
-                margin-top: 10px;
-                display: flex;
-                .type{
-                    flex: 1;
-                    margin-left: 10px;
-                    span{
-                        &:nth-of-type(1){
-                            font-size: 13px;
-                        }
-                        &:nth-of-type(2){
-                            font-size: 28px;
-                        }
-                        &:nth-of-type(3){
-                            font-size: 13px;
-                            margin-left: 2px;
-                        }
+            border-top: 0;
+            overflow: auto;*/
+    }
+    .el-pagination{
+        padding: 0;
+        float: right;
+        margin: 0 32px 32px 0;
+    }
+    .coupon-status{
+        width: 242px;
+        height: 86px;
+        overflow: hidden;
+        .coupon-s{
+            width: 100%;
+            height: 32px;
+            margin-top: 10px;
+            display: flex;
+            .type{
+                flex: 1;
+                margin-left: 10px;
+                span{
+                    &:nth-of-type(1){
+                        font-size: 13px;
+                    }
+                    &:nth-of-type(2){
+                        font-size: 28px;
+                    }
+                    &:nth-of-type(3){
+                        font-size: 13px;
+                        margin-left: 2px;
                     }
                 }
-                .status{
-                    width: 74px;
-                    border-radius: 4px;
-                    font-size: 13px;
-                    margin-right: 10px;
-                    text-align: center;
-                    line-height: 32px;
-                }
             }
-            p{
-                line-height: 16px;
-                font-size: 11px;
-                margin-left: 10px;
-                &:nth-of-type(1){
-                    margin-top: 4px;
-                }
+            .status{
+                width: 74px;
+                border-radius: 4px;
+                font-size: 13px;
+                margin-right: 10px;
+                text-align: center;
+                line-height: 32px;
             }
         }
-        .isUse-d{
-            background: #EC4B26;
-            color: #fff;
+        p{
+            line-height: 16px;
+            font-size: 11px;
+            margin-left: 10px;
+            &:nth-of-type(1){
+                margin-top: 4px;
+            }
         }
-        .unUse-d{
-            background: #FFFFFF;
-            color: rgba(0,0,0,0.65);
-        }
-        .isUse{
-            background: #FEF2E7;
-            color: #EC4B26;
-        }
-        .unUse{
-            background: #EBEBEB;
-            color: rgba(0,0,0,0.65);
-        }
+    }
+    .isUse-d{
+        background: #EC4B26;
+        color: #fff;
+    }
+    .unUse-d{
+        background: #FFFFFF;
+        color: rgba(0,0,0,0.65);
+    }
+    .isUse{
+        background: #FEF2E7;
+        color: #EC4B26;
+    }
+    .unUse{
+        background: #EBEBEB;
+        color: rgba(0,0,0,0.65);
+    }
     }
 </style>

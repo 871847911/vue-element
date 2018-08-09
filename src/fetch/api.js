@@ -4,8 +4,9 @@ import qs from 'qs';
 let urlPrefix = {
     backend: '',
     // plat: 'http://112.17.127.68:611',
-    plat: 'http://sphz.vdongchina.com/api',
+    // plat: 'http://sphz.vdongchina.com/api',
     // plat: 'http://meiye-hz.vdongchina.com/api',
+    plat: 'http://192.168.1.166:611/api',
     // plat: '/api',
     // plat: 'http://192.168.1.139:611',
     upload: '',
@@ -489,14 +490,14 @@ export default {
 
     },
     testUpload(params) {
-        return fetch(`${urlPrefix.plat}/wx/testUpload?user_version=${params.user_version}&user_desc=${params.user_desc}&accountId=${params.accountId}`,{}, 'POST', {
+        return fetch(`${urlPrefix.plat}/wx/testUpload?user_version=${params.user_version}&user_desc=${params.user_desc}&accountId=${params.accountId}`, {}, 'POST', {
             'Content-Type': 'application/json'
         })
     },
     //新增接口 发布至线上
-    pushOnline(params){
+    pushOnline(params) {
         console.log(params)
-        return fetch(`${urlPrefix.plat}/wx/release?sellerId=${params.sellerId}`,{}, 'POST', {
+        return fetch(`${urlPrefix.plat}/wx/release?sellerId=${params.sellerId}`, {}, 'POST', {
             'Content-Type': 'application/json'
         })
     },
@@ -504,7 +505,7 @@ export default {
 
 
     // 查看我的激活模板
-    queryActivateTemplate(params){
+    queryActivateTemplate(params) {
         return fetch(`${urlPrefix.plat}/template/queryActivateTemplate?accountId=${params.accountId}`, {}, 'POST', {
             'Content-Type': 'application/json',
         })
@@ -525,11 +526,83 @@ export default {
             'Content-Type': 'application/x-www-form-urlencoded'
         })
     },
-    querySellerById(params){
-        return fetch(`${urlPrefix.plat}/seller/queryById?sellerId=${params.sellerId}`,{}, 'POST', {
+    // 根据手机号查是否绑定过账号
+    queryAccountByPhone(params) {
+        return fetch(`${urlPrefix.plat}/account/queryAccountByPhone?phone=${params.phone}`, {}, 'POST', {
             'Content-Type': 'application/json',
         })
-    }
+    },
+    //获取图形验证码
+    getVerify(params) {
+        return fetch(`${urlPrefix.plat}/verify/getVerify`, params, 'GET', {
+            'Content-Type': 'application/json'
+        })
+    },
+    //获取uuid
+    getUUID(params) {
+        return fetch(`${urlPrefix.plat}/account/getUUID`, params, 'GET', {
+            'Content-Type': 'application/json'
+        })
+    },
+    //发送短信绑定手机号
+    sendAccountMessage(params) {
+        return fetch(`${urlPrefix.plat}/account/sendAccountMessage`, params, 'PUT', {
+            'Content-Type': 'application/json'
+        })
+    },
+    //验证图形验证码
+    checkVerify(params) {
+        return fetch(`${urlPrefix.plat}/account/checkVerify`, params, 'GET', {
+            'Content-Type': 'application/json'
+        })
+    },
+    //校验验证码
+    checkAccountMessage(params) {
+        return fetch(`${urlPrefix.plat}/account/checkAccountMessage?code=${params.code}&phone=${params.phone}`, {}, 'PUT', {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        })
+    },
+    querySellerById(params) {
+        return fetch(`${urlPrefix.plat}/seller/queryById?sellerId=${params.sellerId}`, {}, 'POST', {
+            'Content-Type': 'application/json',
+        })
+    },
+    //消息中心列表
+    queryMessageReceivePage(params) {
+        return fetch(`${urlPrefix.plat}/messageCenter/queryMessageReceivePage`, params, 'POST', {
+            'Content-Type': 'application/json',
+        })
+    },
+    //批量删除消息
+    deleteMessages(params) {
+        return fetch(`${urlPrefix.plat}/messageCenter/deleteMessages`, qs.stringify(params), 'POST', {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        })
+    },
+    //批量已读
+    readMessages(params) {
+        return fetch(`${urlPrefix.plat}/messageCenter/readMessages`, qs.stringify(params), 'POST', {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        })
+    },
+    //更新消息
+    updateOperateMessageReceive(params) {
+        return fetch(`${urlPrefix.plat}/messageCenter/updateOperateMessageReceive`, params, 'POST', {
+            'Content-Type': 'application/json',
+        })
+    },
+    //根据ID查消息
+    messageCenterqueryById(params) {
+        return fetch(`${urlPrefix.plat}/messageCenter/queryById`, qs.stringify(params), 'POST', {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        })
+    },
+    //校验密码
+    checkPassword(params) {
+        return fetch(`${urlPrefix.plat}/account/checkPassword?password=${params.password}&id=${params.id}`, {}, 'PUT', {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        })
+    },
     // example
 
     // baidu(params) {

@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-aside width="208px" style="box-shadow:1px 0px 4px 0px rgba(0,16,41,0.12);">
-            <el-menu :default-active="activeIndex" class="el-menu-vertical-demo" mode="vertical" @select='handleSelect()'  text-color="#595959" active-text-color="#18CCC0" :router="true">
+            <el-menu :default-active="storeMenuIndex" class="el-menu-vertical-demo" mode="vertical" @select='handleSelect'  text-color="#BCBCBC" active-text-color="#18CCC0" :router="true">
                 <el-menu-item v-for="(item,index) in asideNavList" :key="index" :index="index.toString()" :route="asideNavList[index].url">
                     <!-- <i class="el-icon-menu"></i> -->
                     <!-- <router-link :to="asideNavList[index].url" > -->
@@ -65,28 +65,36 @@
                         url: "/totalManageC/coupon",
                         alias: "优惠券管理"
                     },
-                    /*{
-                        name: "newsTemp",
-                        url: "/totalManageC/newsTemp",
-                        alias: "消息模板"
-                    },*/
+                    {
+                        name: "messageCenter",
+                        url: "/totalManageC/messageCenter",
+                        alias: "消息中心"
+                    },
                     {
                         name: "message",
                         url: "/totalManageC/message",
-                        alias: "短息服务管理"
+                        alias: "短信服务管理"
+                    },
+                    {
+                        name: "acconutSafety",
+                        url: "/totalManageC/acconutSafety",
+                        alias: "账号安全"
                     },
                 ],
             };
         },
         created() {
-
+            if (sessionStorage.getItem("storeMenuIndex")) {
+                store.dispatch("changeStoreMenuIndex", sessionStorage.getItem("storeMenuIndex"));
+            }
         },
         mounted() {
             this.getStoreList();
-            this.setIndex()
+            // this.setIndex()
         },
         methods: {
-            setIndex(){
+            ...mapActions(["changeStoreMenuIndex", ]),
+            /*setIndex(){
                 if(window.location.href.indexOf('store') != -1 || window.location.href.indexOf('storeConfig') != -1 || window.location.href.indexOf('addStore') != -1) {
                     this.activeIndex = '0'
                 }else if(window.location.href.indexOf('brand') != -1) {
@@ -104,14 +112,16 @@
                 }else if(window.location.href.indexOf('message') != -1) {
                     this.activeIndex = '7'
                 }
-            },
+            },*/
             /*...mapActions([
                 "changeStoreList"
             ]),*/
             handleOpen() {},
             handleClose() {},
             handleSelect(index) {
-                // console.log(index)
+                console.log(index)
+                store.dispatch("changeStoreMenuIndex", index);
+                console.log('storeMenuIndex', this.storeMenuIndex)
             },
             getStoreList() {
                 let params = { sellerId : this.loginInfo.sellerId };
@@ -123,7 +133,8 @@
         },
         computed: {
             ...mapGetters({
-                loginInfo: "getLoginInfo"
+                loginInfo: "getLoginInfo",
+                storeMenuIndex: "getStoreMenuIndex"
             })
         },
     };
@@ -132,9 +143,8 @@
 <style lang="scss">
     .el-container{
         font-size: 14px;
-        color: rgba(0,0,0,.85);
-        .el-menu{
-            height: 100%;
+        .el-menu-vertical-demo{
+            background: rgba(71,74,80,1);
         }
     }
     .tatal{
@@ -147,9 +157,14 @@
                 line-height: 30px;
                 margin: 0;
             }
-            &:hover {
+            &:hover{
                 color: #18CCC0;
                 border: 1px solid #18CCC0;
+                background: #fff;
+            }
+            &:focus{
+                border: 1px solid #dcdfe6;
+                color: #606266;
                 background: #fff;
             }
         }
@@ -193,9 +208,9 @@
             width: calc(100% - 64px);
             width: -webkit-calc(100% - 64px);
             width: -moz-calc(100% - 64px);
-            height: calc(100% - 160px);
-            height: -webkit-calc(100% - 160px);
-            height: -moz-calc(100% - 160px);
+            /*height: calc(100% - 136px);
+            height: -webkit-calc(100% - 136px);
+            height: -moz-calc(100% - 136px);*/
             overflow: auto;
             .el-button--text:hover, .el-button--text:focus, .el-button--text:active{
                 background: transparent;
@@ -209,15 +224,6 @@
             }
             td{
 
-            }
-        }
-        .el-menu-item{
-            height: 40px;
-            margin-top: 24px;
-            line-height: 40px;
-            text-align: center;
-            span{
-                margin: 0;
             }
         }
     }

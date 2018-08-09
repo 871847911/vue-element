@@ -12,7 +12,9 @@ const state = {
     loginInfo: {},
     isLogin: false, // 是否登陆成功
     menuIndex: 0, // 菜单栏的菜单index,控制色块显示
-    headMenuIndex: 0,
+    headMenuIndex: '0',
+    storeMenuIndex: '0',
+    redItem : false,
 }
 
 const getters = {
@@ -23,6 +25,8 @@ const getters = {
     getIsLogin: state => state.isLogin,
     getMenuIndex: state => state.menuIndex,
     getHeadMenuIndex: state => state.headMenuIndex,
+    getStoreMenuIndex: state=> state.storeMenuIndex,
+    getredItem : state => state.redItem,
 }
 
 const actions = {
@@ -41,6 +45,7 @@ const actions = {
     },
     changeLoginInfo: ({ commit }, params) => {
         commit(types.CHANGELOGININFO, params)
+        sessionStorage.setItem("loginInfo", JSON.stringify(params));
     },
     changeIsLogin: ({ commit }, params) => {
         commit(types.CHANGEISLOGIN, params)
@@ -52,6 +57,15 @@ const actions = {
     changeHeadMenuIndex: ({ commit }, params) => {
         commit(types.CHANGEHEADMENUINDEX, params)
         sessionStorage.setItem('headMenuIndex', params);
+    },
+    changeStoreMenuIndex: ({ commit }, params) => {
+        commit(types.CHANGESTOREMENUINDEX, params)
+        sessionStorage.setItem('storeMenuIndex', params);
+    },
+    changerdItem: ({ commit }, params) => {
+        console.log(params)
+        commit(types.CHANGEREDITEN, params)
+        // sessionStorage.setItem('redItem', params);
     }
 }
 
@@ -80,6 +94,12 @@ const mutations = {
     },
     [types.CHANGEHEADMENUINDEX](state, params) {
         state.headMenuIndex = params
+    },
+    [types.CHANGESTOREMENUINDEX](state, params) {
+        state.storeMenuIndex = params
+    },
+    [types.CHANGEREDITEN](state, params) {
+        state.redItem = params
     }
 }
 

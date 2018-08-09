@@ -17,7 +17,6 @@
         </el-col>
         <el-col :span="24">
           <el-upload action="http://meiye-dev.vdongchina.com/upload" list-type="picture-card" :http-request="httpRequestSetting" :before-upload="beforeImgUpload" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :limit="5" :file-list="uploadFileList" :show-file-list="true" :on-exceed="onExceed">
-            <!-- :on-change="onChange" -->
             <i class="el-icon-plus">
               <span>
                 上传图片
@@ -26,11 +25,18 @@
           </el-upload>
         </el-col>
       </el-row>
+
       <el-button type="primary" @click="saveImgList">保存</el-button>
 
       <el-button type="primary" class="cancel" @click="goBack">取消</el-button>
 
     </el-main>
+      <el-dialog title="" :visible.sync="dialogVisible" width="790px" :before-close="handleClose">
+          <img :src="dialogImageUrl" alt="">
+          <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+          </span>
+      </el-dialog>
 
   </el-container>
 </template>
@@ -46,6 +52,8 @@ export default {
     return {
       siteUrl: "",
       // limitSize:5,
+        dialogVisible: false,
+        dialogImageUrl: '',
       tooLong: false,
       deleteCarouselImgVisble: false,
       imageUrl: "",
@@ -70,6 +78,13 @@ export default {
       ]
     };
   },
+  beforeRouteEnter (to, from, next) {
+		if(from.name != null){
+	    next();
+		}else{
+	    next({name : 'operationManageC'})
+    }
+	},
   computed: {
     ...mapGetters({ storeInfo: "getStoreInfo", loginInfo: "getLoginInfo" })
   },
@@ -198,6 +213,13 @@ export default {
 }
 #resetMain.el-main {
   height: calc(100% - 52px);
+}
+.el-dialog__body{
+    img{
+        width: 750px;
+        height: 420px;
+        margin: 0 auto;
+    }
 }
 .el-upload--picture-card .el-upload {
   border: 1px dashed #d9d9d9;

@@ -1,32 +1,32 @@
 <template>
     <div id="userInfo">
         <p class="title">用户信息</p>
-        <div class="cont">
-            <div class="choose">
-                <div class="name-search">
-                    <p>微信昵称：</p>
-                    <el-input v-model="userName" placeholder="请输入微信昵称"></el-input>
-                </div>
-                <div class="tel">
-                    <p>手机号码：</p>
-                    <el-input v-model="userTel" placeholder="请输入手机号码"></el-input>
-                </div>
-                <div class="search-time">
-                    <p>时间范围：</p>
-                    <el-date-picker
-                        v-model="timeValue"
-                        type="datetimerange"
-                        range-separator="至"
-                        start-placeholder="起始时间"
-                        end-placeholder="结束时间">
-                    </el-date-picker>
-                    <el-button type="primary" @click="searchUser">搜索</el-button>
-                </div>
+        <div class="choose">
+            <div class="name-search">
+                <p>微信昵称：</p>
+                <el-input v-model="userName" placeholder="请输入微信昵称"></el-input>
             </div>
+            <div class="tel">
+                <p>手机号码：</p>
+                <el-input v-model="userTel" placeholder="请输入手机号码"></el-input>
+            </div>
+            <div class="search-time">
+                <p>时间范围：</p>
+                <el-date-picker
+                    v-model="timeValue"
+                    type="datetimerange"
+                    range-separator="至"
+                    start-placeholder="起始时间"
+                    end-placeholder="结束时间">
+                </el-date-picker>
+                <el-button type="primary" @click="searchUser">搜索</el-button>
+            </div>
+        </div>
+        <div class="cont">
             <el-table :data="userInfo" min-height="550">
                 <el-table-column prop="nickName" label="微信昵称"></el-table-column>
                 <el-table-column prop="phone" label="手机号码"></el-table-column>
-                <el-table-column prop="visitTime" label="最近访问时间"></el-table-column>
+                <el-table-column prop="visitTime" :formatter="formatTime" label="最近访问时间"></el-table-column>
             </el-table>
             <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="prev, pager, next, sizes, jumper" :total="this.total"></el-pagination>
         </div>
@@ -62,6 +62,9 @@
             })
         },
         methods: {
+            formatTime(val) {
+                return new Date(val.visitTime).toLocaleDateString().replace(/\//g, "-") + " " + new Date(val.visitTime).toTimeString().substr(0, 8)
+            },
             searchUser(){
                 if( this.timeValue != null){
                     this.startTime = new Date(this.timeValue[0]).toLocaleDateString().replace(/\//g, "-") + " " + new Date(this.timeValue[0]).toTimeString().substr(0, 8)
@@ -89,9 +92,6 @@
                 api.queryUserPage(params).then(res => {
                     console.log(res.rows);
                     this.userInfo = res.rows;
-                    for(var i = 0;i < this.userInfo.length;i ++){
-                        this.userInfo[i].visitTime = new Date(this.userInfo[i].visitTime).toLocaleDateString().replace(/\//g, "-") + " " + new Date(this.userInfo[i].visitTime).toTimeString().substr(0, 8)
-                    }
                     this.total = res.total;
                 });
             },
@@ -114,26 +114,34 @@
 <style lang="scss">
 
     #userInfo{
-        width: 100%;
-        height: 100%;
+        width: calc(100% - 48px);
+        width: -webkit-calc(100% - 48px);
+        width: -moz-calc(100% - 48px);
+        height: calc(100% - 48px);
+        height: -webkit-calc(100% - 48px);
+        height: -moz-calc(100% - 48px);
+        border: 24px solid #edf2f5;
+        overflow: auto;
         .title{
-            height: 92px;
-            line-height: 92px;
-            font-size: 20px;
+            height: 66px;
+            line-height: 66px;
+            font-size: 18px;
             color: rgba(0,0,0,.85);
             text-indent: 32px;
             font-weight: 900;
+            flex: 1;
         }
         .cont{
-            height: calc(100% - 140px);
-            height: -webkit-calc(100% - 140px);
-            height: -moz-calc(100% - 140px);
+            /*height: calc(100% - 170px);
+            height: -webkit-calc(100% - 170px);
+            height: -moz-calc(100% - 170px);
             border: 24px solid #edf2f5;
-            overflow: auto;
+            border-top: 0;
+            overflow: auto;*/
         }
-        .choose     {
+        .choose {
             display: flex;
-            margin: 24px 32px;
+            padding: 0 32px 24px;
             .name-search {
                 display: flex;
                 align-items: center;
