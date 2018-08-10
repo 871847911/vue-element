@@ -37,7 +37,9 @@
                 <div class="renew">
                     <div class="store-name">
                         <p>丽人美业</p>
-                        <p>标准版</p>
+                        <p v-if="loginInfo.free == 0">标准版</p>
+                        <p v-if="loginInfo.free == 1">高级版</p>
+                        <p v-if="loginInfo.free == 2">豪华版</p>
                     </div>
                     <div class="store-time">
                         <p>剩余{{account}}天</p>

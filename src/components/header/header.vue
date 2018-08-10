@@ -116,9 +116,6 @@ export default {
             redItem: "getredItem"
         })
     },
-    mounted() {
-        console.log(this.redItem);
-    },
     methods: {
         ...mapActions([
             "changeIsLogInStatus",

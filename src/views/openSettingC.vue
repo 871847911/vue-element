@@ -129,7 +129,7 @@ $fontColor: RGBA(0, 0, 0, 0.85);
   width: 100%;
   // background: RGBA(237, 242, 245, 1);
   height: calc(100% - 24px);
-  overflow: hidden;
+  overflow: auto;
   // overflow-y: scroll;
   h3 {
     height: 66px;
@@ -148,8 +148,7 @@ $fontColor: RGBA(0, 0, 0, 0.85);
       }
   }
   .commonCon {
-    overflow: hidden;
-    height: calc(100% - 24px);
+    height: calc(100% - 90px);
     margin: 0 24px 0 24px;
     section.el-container {
       // min-height: 729px;
