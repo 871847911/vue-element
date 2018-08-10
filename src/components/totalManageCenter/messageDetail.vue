@@ -101,6 +101,8 @@ export default {
             color: rgba(0, 0, 0, 0.85);
         }
         .title {
+            width: 50%;
+            margin: 0 auto;
             font-size: 28px;
             color: rgba(0, 0, 0, 0.85);
             padding: 0;
@@ -124,6 +126,7 @@ export default {
             margin:0 auto;
             font-size: 16px;
             color: rgba(0, 0, 0, 0.85);
+            padding-bottom: 60px;
             p{
                 padding: 11px 0;
                 img{

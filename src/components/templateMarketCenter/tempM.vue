@@ -1,5 +1,5 @@
 <template>
-    <div id="temp-market">
+    <div id="temp-market1">
         <div class="kind-choose">
             <p class="title">模板市场</p>
             <div class="search-temp">
@@ -198,7 +198,7 @@ export default {
 
 <style lang="scss">
 
-    #temp-market{
+    #temp-market1{
         width: 100%;
         height: 100%;
         .el-dialog__header{

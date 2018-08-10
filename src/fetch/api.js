@@ -5,10 +5,10 @@ let urlPrefix = {
     backend: '',
     // plat: 'http://112.17.127.68:611',
     // plat: 'http://sphz.vdongchina.com/api',
-    // plat: 'http://meiye-hz.vdongchina.com/api',
-    plat: 'http://192.168.1.166:611/api',
+    plat: 'http://meiye-hz.vdongchina.com/api',
+     // plat: 'http://192.168.1.166:611/api',
     // plat: '/api',
-    // plat: 'http://192.168.1.139:611',
+    // plat: 'http://192.168.1.230:611/api',
     upload: '',
     docker: '',
     open: ''

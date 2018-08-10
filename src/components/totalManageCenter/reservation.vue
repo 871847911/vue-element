@@ -363,7 +363,7 @@
                     // console.log(res.rows)
                     var newStaff = {}
                     for(var i = 0;i < res.rows.length; i++){
-                        newStaff = {value: res.rows[i].id, label: res.rows[i].name}
+                        newStaff = {value: res.rows[i].id, label: res.rows[i].nickName}
                         this.staffList.push(newStaff)
                     }
                     console.log(this.staffList)
@@ -462,7 +462,7 @@
                     this.staffChoose = '';
                     var newStaff = {}
                     for(var i = 0;i < res.rows.length; i++){
-                        newStaff = {value: res.rows[i].id, label: res.rows[i].name}
+                        newStaff = {value: res.rows[i].id, label: res.rows[i].nickName}
                         this.staffList.push(newStaff)
                     }
                 });

@@ -185,7 +185,7 @@ const router = new Router({
         },
       ]
     },
-    {
+    /*{
       path: '/templateMarketC',
       name: 'templateMarketC',
       component: resolve => require(['@/views/templateMarketC'], resolve),
@@ -206,7 +206,7 @@ const router = new Router({
           component: resolve => require(['@/components/templateMarketCenter/tempDetail'], resolve)
         }
       ]
-    },
+    },*/
     {
       path: '/openSettingC',
       name: 'openSettingC',

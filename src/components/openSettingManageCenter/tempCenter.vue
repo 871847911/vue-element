@@ -252,7 +252,7 @@ export default {
             });
         },
         toTempDetail(item) {
-            this.$router.push({path: '/openSettingC/tempDetail', query: { id: item.id, urlAdd: location.href} })
+            this.$router.push({path: '/openSettingC/tempDetail', query: { id: item.id} })
             // this.$router.push({name: 'tempDetail', query: { id: item.id, urlAdd: location.href} })
             store.dispatch("changeTitle", "模板详情");
         },
@@ -372,7 +372,6 @@ export default {
             .temp_style{
                 display: flex;
                 align-items: center;
-                /*border-bottom: 1px dashed  #E9E9E9;*/
                 p{
                     width: 42px;
                 }
@@ -423,16 +422,6 @@ export default {
             }
         }
         .cont{
-            /*height: calc(100% - 278px);
-            height: -webkit-calc(100% - 278px);
-            height: -moz-calc(100% - 278px);
-            border-top: 24px solid #edf2f5;
-            border-bottom: 24px solid #edf2f5;
-            border-right: 0;
-            overflow: auto;*/
-            .style-shoose{
-                /*border-bottom: 24px solid #edf2f5;*/
-            }
             .temp_list{
                 height: 100%;
                 /*overflow: auto;*/
@@ -446,7 +435,7 @@ export default {
                     height:514.58px;
                     background: transparent;
                     border-radius: 2px;
-                    margin: 0 24px 24px 0;
+                    margin: 24px 24px 0 0;
                     &:hover{
                         .bths{
                             transform: translate(0, -80px);

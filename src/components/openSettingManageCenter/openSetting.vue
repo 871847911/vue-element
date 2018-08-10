@@ -59,15 +59,15 @@
             <p>审核通过后将覆盖已发布的小程序</p>
             <dl>
                 <dt>模板名称：</dt>
-                <dd>{{pushedInfo.templateName || '无已发布版本'}}</dd>
+                <dd>{{auditResult.templateName || '无已发布版本'}}</dd>
             </dl>
             <dl>
                 <dt>模板版本：</dt>
-                <dd>{{pushedInfo.userVersion || '无已发布版本'}}</dd>
+                <dd>{{auditResult.userVersion || '无已发布版本'}}</dd>
             </dl>
             <dl>
                 <dt>发布时间：</dt>
-                <dd>{{pushedInfo.releaseTime != null ? new Date(pushedInfo.releaseTime).toLocaleDateString().replace(/\//g, "-") + " " + new Date(pushedInfo.releaseTime).toTimeString().substr(0, 8) : '无已发布版本'}}</dd>
+                <dd>{{auditResult.releaseTime != null ? new Date(auditResult.releaseTime).toLocaleDateString().replace(/\//g, "-") + " " + new Date(auditResult.releaseTime).toTimeString().substr(0, 8) : '无已发布版本'}}</dd>
             </dl>
             <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="dialogVisible = false">知道了</el-button>
@@ -100,7 +100,7 @@ export default {
     created() {
         this.hasBindPro();
         this.queryActivateTemplate();
-        this.getAuthorized();
+        // this.getAuthorized();
         this.queryMyTemplatePage()
     },
     methods: {
@@ -109,6 +109,7 @@ export default {
             let params = { sellerId: this.loginInfo.sellerId };
             api.querySellerById(params).then(res => {
                 console.log('123456', res)
+                this.auditResult = res;
                 if(res.appId != null){
                     this.hasBindProject = false
                 }
@@ -133,13 +134,13 @@ export default {
             });
         },
         //获取审核状态
-        getAuthorized() {
+        /*getAuthorized() {
             let params = { accountId: this.loginInfo.id };
             api.getLatestAuditstatus(params).then(res => {
                 this.auditResult = res
                 console.log('LatestAuditstatus', res)
             });
-        },
+        },*/
         toBindProject() {
             this.$router.push({path: '/openSettingC/miniProgramBind' })
             store.dispatch("changeMenuIndex", "0");
@@ -217,11 +218,11 @@ export default {
                     }
                     .tempInfo{
                         position: absolute;
-                        @media screen and (max-width:1440px) and (min-width: 1200px){
+                        @media screen and (max-width:1700px) and (min-width: 1200px){
                             left: 200px;
                             top: 50px;
                         }
-                        @media screen and (min-width:1441px){
+                        @media screen and (min-width:1701px){
                             left: 350px;
                             top: 100px;
                         }
@@ -299,7 +300,7 @@ export default {
             .audit_step{
                 position: absolute;
                 width: 70%;
-                bottom: 120px;
+                bottom: 100px;
                 left: 15%;
                 p:nth-of-type(1){
                     font-size: 16px;

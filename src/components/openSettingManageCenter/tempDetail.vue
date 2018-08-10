@@ -1,11 +1,11 @@
 <template>
     <div id="tempDetail">
-            <!--<div class="temp_title">
-                <p class="title">
-                    模板详情
-                </p>
-                <el-button @click="goBack">返 回</el-button>
-            </div>-->
+        <!--<div class="temp_title">
+            <p class="title">
+                模板详情
+            </p>
+            <el-button @click="goBack">返 回</el-button>
+        </div>-->
         <div class="temp">
             <div class="tempIntroduce">
                 <div class="banner">
@@ -30,9 +30,7 @@
                     <p :title="tempInfo.industry">所属行业：<span>{{tempInfo.industry}}</span></p>
                     <p>模板价格：<span>{{tempInfo.price}}</span></p>
                     <div class="btns">
-                        <el-button type="primary" @click="activateTemp()" v-if="tempInfo.status==0">激 活</el-button>
-                        <el-button type="danger" @click="disabledMyTemplate()" v-if="tempInfo.status==1">取消激活</el-button>
-                        <el-button disabled="" v-if="tempInfo.status==2">已经发布</el-button>
+                        <el-button type="primary" @click="useTemp()">使 用</el-button>
                     </div>
                 </div>
                 <div class="func" ref="func">
@@ -46,7 +44,34 @@
                 </div>
             </div>
         </div>
-        <el-dialog title="" :visible.sync="dialogDisabled" width="433px" :before-close="handleClose">
+        <el-dialog title="提示" :visible.sync="hasBindProject" width="433px" :before-close="handleClose">
+            <span>绑定小程序后才可以使用模板。</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="hasBindProject = false">取 消</el-button>
+                <el-button type="primary" @click="ToBindProject">前去绑定</el-button>
+            </span>
+        </el-dialog>
+        <el-dialog title="提示" :visible.sync="hasAuditProject" width="433px" :before-close="handleClose">
+            <span>当前有正在审核中的模板，请审核完成后在使用其他小程序模板。</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="toOpenSetting()">查看进度</el-button>
+                <el-button type="primary" @click="hasAuditProject = false">确定</el-button>
+            </span>
+        </el-dialog>
+        <el-dialog title="提示" :visible.sync="auditAccountV" width="433px" :before-close="handleClose">
+            <span>您选择的【{{tempInfo.name}}】模板属于{{tempInfo.demand}}账号，请升级账号后再使用。</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="auditAccountV = false">确定</el-button>
+            </span>
+        </el-dialog>
+        <el-dialog title="提示" :visible.sync="submitAudit" width="433px" :before-close="handleClose">
+            <span>您确定要使用【{{tempInfo.name}}】模板吗？该操作会将模板提交到微信平台进行审核。</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="" @click="submitAudit = false">取 消</el-button>
+                <el-button type="primary" @click="activateMyTemplate">提交审核</el-button>
+            </span>
+        </el-dialog>
+        <!--<el-dialog title="" :visible.sync="dialogDisabled" width="433px" :before-close="handleClose">
             <span>该模板属于{{tempInfo.demand}}，您可以正常激活，但若要使用请升级账号，如升级账号请联系相关业务人员。</span>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogDisabled = false">取 消</el-button>
@@ -59,13 +84,14 @@
                 <el-button @click="suerDisabled = false, dialogDisabled = false">取 消</el-button>
                 <el-button type="primary" @click="activateMyTemplate">确 定</el-button>
             </span>
-        </el-dialog>
+        </el-dialog>-->
     </div>
 </template>
 
 <script>
-    import { mapGetters } from "vuex";
+    import { mapGetters, mapActions } from "vuex";
     import api from '../../fetch/api.js'
+    import store from "@/store/index";
     export default {
         name: "",
         data: function() {
@@ -77,14 +103,30 @@
                 bannerIndex: '',
                 dialogDisabled: false,
                 suerDisabled: false,
-                funcNum: 0
+                funcNum: 0,
+                dialogDisabled: false,
+                suerDisabled: false,
+                hasBindProject: false,
+                appId: '',
+                hasAuditProject: false,
+                auditStatus: '',
+                auditAccountV: false,
+                submitAudit: false,
             }
         },
         created() {
-          this.getAccountV();
-          this.queryTemplateById();
-          this.queryTemplateFunctionsById();
-          this.queryTemplateBroadcastById();
+            this.queryTemplateById();
+            this.queryTemplateFunctionsById();
+            this.queryTemplateBroadcastById();
+            this.hasBindPro()
+            this.hasAuditPro()
+            if(this.loginInfo.free == 0){
+                this.accountV = '标准版'
+            }else if(this.loginInfo.free == 1){
+                this.accountV = '高级版'
+            }else if(this.loginInfo.free == 2){
+                this.accountV = '豪华版'
+            }
         },
         computed: {
             ...mapGetters({
@@ -92,56 +134,61 @@
             })
         },
         methods: {
-            getAccountV() {
-                let params = { id: this.loginInfo.id };
-                api.queryAccountById(params).then(res => {
-                    console.log(res.free);
-                    if(res.free == 0){
-                        this.accountV = '标准版'
-                    }else if(res.free == 1){
-                        this.accountV = '高级版'
-                    }else if(res.free == 2){
-                        this.accountV = '豪华版'
-                    }
-                });
-            },
-            //激活模板函数
-            activateTemp(item) {
-                this.item = item;
-                if(this.accountV == '标准版' && this.tempInfo.demand == '标准版'){
-                    this.suerDisabled = true
-                }else if(this.accountV == '高级版' && this.tempInfo.demand == '标准版'){
-                    this.suerDisabled = true
-                }else if(this.accountV == '高级版' && this.tempInfo.demand == '高级版') {
-                    this.suerDisabled = true
-                }else if(this.accountV == '豪华版') {
-                    this.suerDisabled = true
+            ...mapActions(["changeMenuIndex", "changeTitle"]),
+            useTemp() {
+                if(this.appId == null) {
+                    this.hasBindProject = true
+                }else if(this.auditStatus == 2) {
+                    this.hasAuditProject = true
+                }else if(this.accountV == '标准版' && this.tempInfo.demand == '高级版'){
+                    this.auditAccountV = true
+                }else if(this.accountV == '标准版' && this.tempInfo.demand == '豪华版'){
+                    this.auditAccountV = true
+                }else if(this.accountV == '高级版' && this.tempInfo.demand == '豪华版'){
+                    this.auditAccountV = true
                 }else{
-                    this.dialogDisabled = true
+                    this.submitAudit = true
                 }
             },
-            //取消激活模板接口
-            disabledMyTemplate() {
-                let params = { accountId: this.loginInfo.id, templateId: this.tempInfo.id };
-                api.disabledMyTemplate(params).then(res => {
-                    console.log(res);
-                    this.tempInfo.status = 0;
-                    this.open();
+            //是否已绑定小程序
+            hasBindPro() {
+                let params = { sellerId: this.loginInfo.sellerId };
+                api.querySellerById(params).then(res => {
+                    // console.log(res)
+                    this.appId = res.appId
                 });
+            },
+            //是否有正在审核小程序
+            hasAuditPro() {
+                let params = { accountId: this.loginInfo.id };
+                api.getLatestAuditstatus(params).then(res => {
+                    this.auditStatus = res.status
+                });
+            },
+            //提交审核
+            commitAudit() {
+                let params = {user_version: 1, user_desc: 1, accountId: this.loginInfo.id};
+                api.testUpload(params).then(res => {
+                    console.log(res);
+                    this.submitAudit = false;
+                    this.$router.push({path: '/openSettingC/openSetting'})
+                    store.dispatch("changeTitle", "发布设置");
+                    store.dispatch("changeMenuIndex", "2");
+                });
+            },
+            ToBindProject() {
+                this.$router.push({path: '/openSettingC/miniProgramBind' })
+                store.dispatch("changeMenuIndex", "0");
+            },
+            checktTemp() {
+                this.queryTemplatePage()
             },
             //激活模板
             activateMyTemplate() {
-                this.dialogDisabled = false;
-                this.suerDisabled = false;
-                let params = { accountId: this.loginInfo.id, templateId: this.tempInfo.id };
+                let params = { accountId: this.loginInfo.id, templateId: this.$route.query.id };
                 api.activateMyTemplate(params).then(res => {
-                    console.log(res);
-                    // this.tempInfo.status = 1
-                    this.open();
-                    this.queryTemplateById()
-                }).catch(err => {
-                    console.log(err)
-                });
+                    this.commitAudit()
+                })
             },
             getBannerIndex() {
                 this.bannerIndex = this.$refs.carousel._data.activeIndex + 1
@@ -157,7 +204,7 @@
             queryTemplateFunctionsById() {
                 let params = { templateId: this.$route.query.id };
                 api.queryTemplateFunctionsById(params).then(res => {
-                    // console.log(res);
+                    console.log(res);
                     this.tempFunc = res.rows
                     for(var i = 0;i < this.tempFunc.length;i++ ){
                         this.funcNum +=  Number(this.tempFunc[i].children.length)
@@ -171,6 +218,12 @@
                 api.queryTemplateBroadcastById(params).then(res => {
                     this.banner = res
                 });
+            },
+            toOpenSetting() {
+                this.$router.push({path: '/openSettingC/openSetting'})
+                // this.$router.push({name: 'tempDetail', query: { id: item.id, urlAdd: location.href} })
+                store.dispatch("changeTitle", "发布设置");
+                store.dispatch("changeMenuIndex", "2");
             },
             open() {
                 this.$message({
@@ -193,14 +246,37 @@
         width: 100%;
         height: 100%;
         .el-dialog__header{
-            padding: 0;
+            padding: 24px 0 0 24px;
+            .el-dialog__title{
+                height: 18px;
+                font-size: 18px;
+                line-height: 18px;
+                font-weight: 900;
+            }
             i{
                 display: none;
             }
         }
         .el-dialog__body{
-            padding: 56px 32px 36px;
+            padding: 40px 32px 40px;
             line-height: 22px;
+        }
+        .el-dialog__footer{
+            .el-button{
+                padding: 8px 20px;
+                &:hover{
+                    color: #18CCC0;
+                    border: 1px solid #18CCC0;
+                    background: #fff;
+                }
+            }
+            .el-button--primary{
+                &:hover{
+                    border-color: #18CCC0;
+                    background: #18CCC0;
+                    color: #fff;
+                }
+            }
         }
         .temp_title{
             width: 100%;
@@ -361,6 +437,7 @@
             }
             .func{
                 /*width: 818px;*/
+                /*min-height: 500px;*/
                 width: calc(100% - 64px);
                 padding: 24px 32px 32px;
                 margin-top: 24px;

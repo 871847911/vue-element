@@ -1,5 +1,6 @@
+<!--
 <template>
-    <div id="tempDetail">
+    <div id="tempDetail1">
         <div class="temp_title">
             <p class="title">
                 模板详情
@@ -198,7 +199,7 @@
 </script>
 
 <style lang="scss">
-    #tempDetail{
+    #tempDetail1{
         width: 100%;
         height: 100%;
         .el-dialog__header{
@@ -347,12 +348,12 @@
                                 line-height: 30px;
                             }
                         }
-                        .el-button--primary:hover, .el-button--primary:focus{
+                        .el-button&#45;&#45;primary:hover, .el-button&#45;&#45;primary:focus{
                             background: rgba(24,204,192,1);
                             color: #fff;
                             border-color: #18ccc0;
                         }
-                        .el-button--danger{
+                        .el-button&#45;&#45;danger{
                             background: rgba(245,34,45,1);
                             &:hover, &:focus{
                                 background: rgba(245,34,45,1);
@@ -412,3 +413,4 @@
         }
     }
 </style>
+-->

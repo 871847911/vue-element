@@ -42,7 +42,8 @@
                         <p v-if="loginInfo.free == 2">豪华版</p>
                     </div>
                     <div class="store-time">
-                        <p>剩余{{account}}天</p>
+                        <p v-if="account != undefined">剩余{{Math.ceil((account - new Date()) / 3600 / 1000 / 24)}}天</p>
+                        <p v-else>发布小程序后，账号开始计时</p>
                         <!--<p>服务热线123456789123</p>-->
                         <!--<el-button name="renew"  type="primary" @click="dialogVisible = true">续费/升级</el-button>-->
                         <div class="tip">
@@ -105,8 +106,11 @@
             };
         },
         created() {
+            // console.log(this.loginInfo)
             this.getStoreConfigInfo();
-            this.account = Math.ceil((this.loginInfo.validityTime.time - new Date()) / 3600 / 1000 / 24)
+            this.account = this.loginInfo.validityTime.time;
+            console.log(this.account)
+            console.log(this.account == null)
             if(sessionStorage.tips == 0){
                 this.showTips = false
             }

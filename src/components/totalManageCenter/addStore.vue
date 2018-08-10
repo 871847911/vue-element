@@ -134,6 +134,7 @@
                 siteUrl: '',
                 areaOptions: [],
                 selectedOptions: [],
+                maxStoreNum: '',
                 ruleForm: {
                     storeName: '',
                     storeOwner: '',
@@ -204,7 +205,7 @@
             })
         },
         methods: {
-            // 更新门店配置
+            // 添加門店
             addStore() {
                 let params = {
                     createDate: new Date(),
@@ -227,8 +228,20 @@
                     status:this.ruleForm.status,
                 };
                 api.addStore(params).then(res => {
-                    this.open()
+                    this.open();
                     // console.log(this.lat, this.lng)
+                });
+            },
+            getStoreConfigInfo() {
+                let params = { accountId: this.loginInfo.id };
+                api.queryStoreByAccountId(params).then(res => {
+                    // console.log(res.length)
+                    this.maxStoreNum = res.length;
+                    if(this.maxStoreNum >= 1){
+                        this.$message.error('当前版本只支持添加一家门店，无法重复添加');
+                    }else{
+                        this.addStore()
+                    }
                 });
             },
             // 省市区联动
@@ -269,7 +282,7 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.addStore()
+                        this.getStoreConfigInfo()
                         // alert('submit!');
                     } else {
                         console.log('error submit!!');

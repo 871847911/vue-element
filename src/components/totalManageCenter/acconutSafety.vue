@@ -42,13 +42,13 @@
                 <p>密码管理</p>
                 <el-form :model="rulesForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
                     <el-form-item label="原密码：" prop="">
-                        <el-input v-model="rulesForm.oldPassw" type="password" placeholder="请输入您的登陆密码"></el-input>
+                        <el-input v-model="rulesForm.oldPassw" type="password" placeholder="请输入您的登录密码"></el-input>
                     </el-form-item>
                     <el-form-item label="新密码：" prop="">
-                        <el-input v-model="rulesForm.newPassw" type="password" placeholder="请输入您新的登陆密码"></el-input>
+                        <el-input v-model="rulesForm.newPassw" type="password" placeholder="请输入您新的登录密码"></el-input>
                     </el-form-item>
                     <el-form-item label="重复新密码：" prop="">
-                        <el-input v-model="rulesForm.reNewPassw" type="password" placeholder="请重复您新的登陆密码"></el-input>
+                        <el-input v-model="rulesForm.reNewPassw" type="password" placeholder="请重复您新的登录密码"></el-input>
                     </el-form-item>
                     <p>{{psErr}}</p>
                     <el-form-item label="" prop="">
@@ -181,7 +181,7 @@
                         this.open('手机号校验成功');
                     }else{
                         this.showBindPhone = true;
-                        this.tipMessage = '已绑定手机号为' + this.ruleForm.phone
+                        this.tipMessage = '已绑定手机号为：' + this.ruleForm.phone
                         this.ruleForm.phone = '';
                         this.ruleForm.validate = '';
                         this.open('手机号绑定成功');
@@ -196,7 +196,7 @@
                     // console.log(res)
                     this.userTel = res.mobile;
                     if(res.mobile != ''){
-                        this.tipMessage = '已绑定手机号为' + res.mobile
+                        this.tipMessage = '已绑定手机号为：' + res.mobile
                     }
                 });
             },
@@ -209,21 +209,27 @@
                 }else if(this.rulesForm.newPassw != this.rulesForm.reNewPassw) {
                     this.psErr = '请输入相同的新密码'
                 }else{
-                    let params = { password: this.rulesForm.newPassw, id: this.loginInfo.id };
+                    let params = { password: this.rulesForm.oldPassw, id: this.loginInfo.id };
                     api.checkPassword(params).then(res => {
                         if(res.message == true){
-                            console.log(res.message)
-                            this.open('密码修改成功');
-                            this.rulesForm.oldPassw = '';
-                            this.rulesForm.newPassw = '';
-                            this.rulesForm.reNewPassw = '';
-                            this.psErr = ''
+                            this.changePassword()
                         }else{
                             this.psErr = '原密码错误'
                         }
                     });
                 }
 
+            },
+            //修改密码
+            changePassword() {
+                let params = { id: this.loginInfo.id, password: this.rulesForm.newPassw };
+                api.updateAccount(params).then(res => {
+                    this.open('密码修改成功');
+                    this.rulesForm.oldPassw = '';
+                    this.rulesForm.newPassw = '';
+                    this.rulesForm.reNewPassw = '';
+                    this.psErr = ''
+                });
             },
             /*resetPassw() {
                 if(this.rulesForm.oldPassw != this.userPassw){
@@ -374,13 +380,18 @@
                                     flex: 1;
                                     margin-right: 8px;
                                 }
+                                .el-button{
+                                    margin-top: 0;
+                                    padding: 0;
+                                    width: 100px;
+                                }
                             }
                         }
-                    }
-                    .el-button{
-                        margin-top: 0;
-                        padding: 0;
-                        width: 100px;
+                        &:nth-of-type(3) {
+                            .el-button{
+                                margin-top: 0;
+                            }
+                        }
                     }
                     .el-button--info{
                         background: rgba(0,0,0,0.25);
